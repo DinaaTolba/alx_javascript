@@ -21,5 +21,14 @@ request(url, (error, response, body) => {
             return;
         }
         console.log(`The body response has been saved to ${filePath}`);
+
+        // Read the saved file and print its contents
+        fs.readFile(filePath, 'utf8', (err, data) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log(data);
+        });
     });
 });
