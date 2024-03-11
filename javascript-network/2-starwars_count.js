@@ -18,7 +18,7 @@ request(apiUrl, (error, response, body) => {
     let count = 0;
     filmsData.forEach(film => {
         console.log(`Characters for film "${film.title}":`, film.characters);
-        if (film.characters.includes(`https://swapi-api.alx-tools.com/api/people/${characterId}/`)) {
+        if (film.characters.some(character => character.endsWith(`/${characterId}/`))) {
             count++;
         }
     });
