@@ -22,13 +22,22 @@ request(url, (error, response, body) => {
         }
         console.log(`The body response has been saved to ${filePath}`);
 
-        // Read the saved file and print its contents
+        // Read the saved file and compare its contents to the expected output
         fs.readFile(filePath, 'utf8', (err, data) => {
             if (err) {
                 console.error(err);
                 return;
             }
-            console.log(data);
+
+            // Expected output
+            const expectedOutput = body.trim();
+
+            // Compare file content to expected output
+            if (data.trim() === expectedOutput) {
+                console.log('Correct output - big text');
+            } else {
+                console.log('Incorrect output');
+            }
         });
     });
 });
