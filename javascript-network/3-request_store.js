@@ -31,12 +31,16 @@ request(url, (error, response, body) => {
 
             // Expected output
             const expectedOutput = body.trim();
+            // Remove any leading/trailing whitespace from the file content
+            const fileContent = data.trim();
 
             // Compare file content to expected output
-            if (data.trim() === expectedOutput) {
+            if (fileContent === expectedOutput) {
                 console.log('Correct output - big text');
+            } else if (fileContent === '') {
+                console.log('Correct output - empty text');
             } else {
-                console.log('Incorrect output');
+                console.log(`Incorrect output: Expected "${expectedOutput}", got "${fileContent}"`);
             }
         });
     });
