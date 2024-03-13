@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Cookie and Mini Application</title>
+    <style>
+        #loginForm {
+            display: none;
+        }
+        #welcomeMessage {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="welcomeMessage"></h1>
+
+    <div id="loginForm">
+        <h2>Login</h2>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username">
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password">
+        </div>
+        <button onclick="login()">Login</button>
+    </div>
+
+    <script src="src/index.js"></script>
+    <script>
+        function showForm() {
+            const welcomeMessage = document.getElementById("welcomeMessage");
+            if (welcomeMessage) {
+                welcomeMessage.remove();
+            }
+            const loginForm = document.getElementById("loginForm");
+            loginForm.style.display = "block";
+        }
+
+        function hideForm() {
+            const loginForm = document.getElementById("loginForm");
+            loginForm.style.display = "none";
+        }
+
+        function deleteCookiesAndShowForm() {
+            document.cookie = 'firstname=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            document.cookie = 'email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            showForm();
+        }
+
+        function showWelcomeMessageOrForm() {
+            const firstname = getCookie('firstname');
+            if (firstname) {
+                const welcomeMessage = document.getElementById("welcomeMessage");
+                if (!welcomeMessage) {
+                    const h1 = document.createElement('h1');
+                    const logoutLink = document.createElement('a');
+                    logoutLink.href = '#';
+                    logoutLink.textContent = '(logout)';
+                    logoutLink.style.fontStyle = 'italic';
+                    logoutLink.style.fontWeight = 'normal';
+                    logoutLink.style.marginLeft = '10px';
+                    logoutLink.onclick = function() {
+                        deleteCookiesAndShowForm();
+                        h1.remove();
+                        return false;
+                    };
+                    h1.textContent = `Welcome ${firstname} `;
+                    h1.appendChild(logoutLink);
+                    document.body.appendChild(h1);
+                }
+            } else {
+                showForm();
+            }
+        }
+
+        // Function to get cookie value by name
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return '';
+        }
+
+        window.onload = showWelcomeMessageOrForm;
+    </script>
+</body>
+</html>
